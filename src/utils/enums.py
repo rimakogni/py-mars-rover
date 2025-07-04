@@ -1,5 +1,9 @@
 from enum import Enum
 
+# 5 5
+# 1 2 N -> N CompassDirection
+# LMLMMLLMMMR -> Instruction
+
 class CompassDirection(Enum):
     N = "N"
     E = "E"

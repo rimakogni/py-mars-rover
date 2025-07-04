@@ -1,16 +1,20 @@
 from dataclasses import dataclass
 from src.utils.enums import CompassDirection
 
-MAX_WIDTH = 1000
-MAX_HEIGHT = 1000
-MAX_X = 1000
-MAX_Y = 1000
+MAX_WIDTH = 55
+MAX_HEIGHT = 55
+MAX_X = 55
+MAX_Y = 55
+
+# 5 5 ->PlateauSize
+# 1 2 N -> Position
+# LMLMMLLMMMR
 
 @dataclass
 class PlateauSize:
     width: int
     height: int
-
+#extra internal proteccion
     def __post_init__(self):
         if self.width < 0:
             raise ValueError("width must be non-negative")

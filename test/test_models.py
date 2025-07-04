@@ -5,9 +5,9 @@ from src.utils.enums import CompassDirection
 # Tests PlateauSize
 
 def test_plateau_size_valid_creation():
-    plateau = PlateauSize(width=500, height=400)
-    assert plateau.width == 500
-    assert plateau.height == 400
+    plateau = PlateauSize(width=55, height=55)
+    assert plateau.width == 55
+    assert plateau.height == 55
 
 def test_plateau_size_negative_width():
     with pytest.raises(ValueError, match="width must be non-negative"):
@@ -19,11 +19,11 @@ def test_plateau_size_negative_height():
 
 def test_plateau_size_width_exceeds_maximum():
     with pytest.raises(ValueError, match="width exceeds maximum"):
-        PlateauSize(width=1500, height=5)
+        PlateauSize(width=60, height=5)
 
 def test_plateau_size_height_exceeds_maximum():
     with pytest.raises(ValueError, match="height exceeds maximum"):
-        PlateauSize(width=3, height=1500)
+        PlateauSize(width=3, height=60)
 
 def test_plateau_size_equality():
     p1 = PlateauSize(5, 7)
