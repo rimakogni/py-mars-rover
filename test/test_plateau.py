@@ -14,4 +14,3 @@ def test_position_on_edge_is_within_bounds():
     pos = Position(5, 5, CompassDirection.E)
     
     assert plateau.is_within_bounds(pos) == True
-

@@ -25,10 +25,10 @@ def test_execute_instructions_changes_rover_position():
     mission_control.add_rover(pos)
     
     instructions = [
-        Instruction.LEFT,
-        Instruction.MOVE,
-        Instruction.LEFT,
-        Instruction.MOVE
+        Instruction.LEFT,     # N → W
+        Instruction.MOVE,     # (1,2) → (0,2)
+        Instruction.LEFT,     # W → S
+        Instruction.MOVE      # (0,2) → (0,1)
     ]
     
     final_pos = mission_control.execute_instructions(0, instructions)
@@ -36,3 +36,37 @@ def test_execute_instructions_changes_rover_position():
     assert final_pos.x == 0
     assert final_pos.y == 1
     assert final_pos.direction == CompassDirection.S
+
+def test_add_rover_to_occupied_position_raises():
+    plateau = Plateau(PlateauSize(5, 5))
+    mission_control = MissionControl(plateau)
+
+    pos1 = Position(2, 2, CompassDirection.N)
+    pos2 = Position(2, 2, CompassDirection.E)
+
+    mission_control.add_rover(pos1)
+
+    # Adding another rover in same position should fail
+    with pytest.raises(ValueError):
+        mission_control.add_rover(pos2)
+
+def test_move_rover_into_occupied_position_raises():
+    plateau = Plateau(PlateauSize(5, 5))
+    mission_control = MissionControl(plateau)
+
+    # Rover 1 starts at (1,1) facing east
+    pos1 = Position(1, 1, CompassDirection.E)
+    mission_control.add_rover(pos1)
+
+    # Rover 2 starts at (2,1) facing north
+    pos2 = Position(2, 1, CompassDirection.N)
+    mission_control.add_rover(pos2)
+
+    # Rover 1 moves east into (2,1)
+    instructions = [
+        Instruction.MOVE
+    ]
+
+    with pytest.raises(ValueError):
+        mission_control.execute_instructions(0, instructions)
+

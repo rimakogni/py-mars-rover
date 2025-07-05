@@ -21,7 +21,7 @@ def main():
 
     # add rover
     rover = mission_control.add_rover(position)
-
+    
     # execute instructions
     final_position = mission_control.execute_instructions(0, instructions)
 

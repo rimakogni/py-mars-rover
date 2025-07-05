@@ -1,5 +1,4 @@
 
-from src.logic.plateau import Plateau
 from src.utils.models import Position
 from src.utils.enums import CompassDirection, Instruction
 
@@ -30,61 +29,58 @@ class Rover:
     }
 
     def __init__(self, position: Position):
-        """
-        Initializes the Rover with a starting Position.
+       
+        # Initializes the Rover with a starting Position.
+        #
+        # :param position: Position object representing the rover's starting location and direction.
         
-        :param position: Position object representing the rover's starting location and direction.
-        """
         self.position = position
 
     def turn_left(self):
-        """
-        Rotates the rover 90 degrees to the left (counter-clockwise).
-        Updates the rover's direction accordingly.
-        """
+        
+        # Rotates the rover to the left .
+        # Updates the rover's direction accordingly.
+        
         dir_value = self.position.direction.value
         new_dir = self.LEFT_TURNS[dir_value]
         self.position.direction = CompassDirection(new_dir)
 
     def turn_right(self):
-        """
-        Rotates the rover 90 degrees to the right (clockwise).
-        Updates the rover's direction accordingly.
-        """
+        
+        # Rotates the rover to the right.
+        # Updates the rover's direction accordingly.
+        
         dir_value = self.position.direction.value
         new_dir = self.RIGHT_TURNS[dir_value]
         self.position.direction = CompassDirection(new_dir)
 
-    def move_forward(self, plateau: Plateau):
-        """
-        Moves the rover one unit forward in the current direction.
-        Checks if the new position is still within the plateau boundaries.
-        Raises a ValueError if the move would go outside the plateau.
+    def move_forward(self, mission_control):
         
-        :param plateau: Plateau object to validate movement boundaries.
-        """
+        # Requests MissionControl to move the rover forward by one unit.
+        # MissionControl handles boundary checks and collision detection.
+        #
+        # :param mission_control: MissionControl instance that manages the plateau and rovers.
+        
         dx, dy = self.FORWARD_MOVE[self.position.direction.value]
         new_x = self.position.x + dx
         new_y = self.position.y + dy
         new_pos = Position(new_x, new_y, self.position.direction)
 
-        if plateau.is_within_bounds(new_pos):
-            self.position = new_pos
-        else:
-            raise ValueError("Rover cannot move outside the plateau boundaries.")
+        # Delegate movement and collision check to MissionControl
+        mission_control.move_rover(self, new_pos)
 
-    def execute_instructions(self, instructions, plateau):
-        """
-        Executes a list of instructions for the rover.
-        Processes each instruction sequentially, modifying the rover's state.
-
-        :param instructions: List of Instruction enums to execute.
-        :param plateau: Plateau object for boundary checks during movement.
-        """
+    def execute_instructions(self, instructions, mission_control):
+        
+        # Executes a list of instructions for the rover.
+        # Processes each instruction sequentially, modifying the rover's state.
+        #
+        # :param instructions: List of Instruction enums to execute.
+        # :param mission_control: MissionControl instance that manages movement and collisions.
+        
         for instr in instructions:
             if instr == Instruction.LEFT:
                 self.turn_left()
             elif instr == Instruction.RIGHT:
                 self.turn_right()
             elif instr == Instruction.MOVE:
-                self.move_forward(plateau)
+                self.move_forward(mission_control)
