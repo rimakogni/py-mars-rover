@@ -4,6 +4,9 @@ from enum import Enum
 # 1 2 N -> N CompassDirection
 # LMLMMLLMMMR -> Instruction
 
+# get CompassDirection.value
+# set CompassDirection('N') -> CompassDirection.N
+# enums name = value
 class CompassDirection(Enum):
     N = "N"
     E = "E"

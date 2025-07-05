@@ -1,32 +1,31 @@
-
-
-from src.parsers.instruction_parser import InstructionParser
-from src.parsers.position_parser import PositionParser
+from src.logic.mission_control import MissionControl
+from src.logic.plateau import Plateau
+from src.utils.models import PlateauSize, Position
 from src.parsers.plateau_parser import PlateauParser
-
+from src.parsers.position_parser import PositionParser
+from src.parsers.instruction_parser import InstructionParser
 
 def main():
-# 5 5 ->PlateauSize
-# 1 2 N -> Position
-# LMLMMLLMMMR -> list(Instructions)
+    plateau_input = "5 5"
+    position_input = "1 2 N"
+    instructions_input = "LMLMMLLMMMR"
 
-    plateau_size_input = '5 5'
-    position_input = '1 2 N'
-    moves_input = 'LMLMMLLMMMR'
-
-    size = PlateauParser.parse(plateau_size_input)
+    # parse inputs
+    plateau_size = PlateauParser.parse(plateau_input)
     position = PositionParser.parse(position_input)
-    instructions = InstructionParser.parse(moves_input)
+    instructions = InstructionParser.parse(instructions_input)
 
-    print('----------- RESULTS -----------')
-    print()
-    print(f'PlateauSize: {size}')
-    print()
-    print(f'Position: {position}')
-    print()
-    print(f'Instructions: {[i.name for i in instructions]}')
-    print()
-    print('-------------------------------')
- 
+    # create plateau and mission control
+    plateau = Plateau(plateau_size)
+    mission_control = MissionControl(plateau)
+
+    # add rover
+    rover = mission_control.add_rover(position)
+
+    # execute instructions
+    final_position = mission_control.execute_instructions(0, instructions)
+
+    print("Rover final position:", final_position)
+
 if __name__ == "__main__":
     main()
