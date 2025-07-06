@@ -25,7 +25,8 @@ def main():
     # execute instructions
     final_position = mission_control.execute_instructions(0, instructions)
 
-    print("Rover final position:", final_position)
+    print(f"{final_position.x} {final_position.y} {final_position.direction.value}")
+
 
 if __name__ == "__main__":
     main()
