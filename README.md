@@ -1,93 +1,103 @@
-# The Mars Rover Brief
+# Mars Rover 🚀
 
-The surface of Mars is represented by a Plateau. You can make the assumption that the Plateau is a square/rectangular grid for the purpose of this task.
+> **Note**: This is a Python implementation of the classic Mars Rover problem. It processes string input, controls rovers on a grid plateau, and avoids collisions.
 
-Rovers navigate the Plateau by following a sequence of commands. They can also use their cameras and robot arms to collect photographs and samples.
+## **✨ Project Overview**
 
-## The Plateau
+This project simulates rovers landing on Mars and navigating a plateau grid.
 
-The Plateau is divided into a grid.
+* **Rotate left or right**
+* **Move forward**
+* **Check plateau boundaries**
+* **Avoid collisions**
 
-## The Rover position
+Architecture separates:
 
-A Rover's position is represented by x and y co-ordinates and the letters N, S, W, E to represent North, South, West, East (the four cardinal compass points) respectively.
+* **Domain Models** (data classes and enums)
+* **Input Parsers**
+* **Logic Layer** (movement, collisions, mission control)
+* **Integration Layer** (`main.py` entry point)
 
-```
-Example
-0 0 E
-```
-
-This means the Rover is at the bottom-left corner facing in the East direction.
-
-In the diagram below the rover's initial position is `2 4 N`
-
-![Example Plateau](/images/Example%20plateau.jpg)
-
-> Assume that the square directly North from `(x, y)` is `(x, y + 1)`, and the square directly East from `(x, y)` is `(x + 1, y)`
-
-## Program Inputs
-
-### First Line: Plateau Creation
-
-The first line inputted into the program represents the upper-right coordinates of the Plateau.
-
-Example:
+## 📂 **Project Structure**
 
 ```
-5 5
+py-mars-rover/
+│
+├── src/
+│   ├── logic/
+│   ├── parsers/
+│   ├── utils/
+│   └── main.py
+│
+├── test/
+└── README.md
 ```
 
-This Plateau has maximum (x, y) co-ordinates of (5, 5), and is therefore has 6 possible x and y values (0 - 5 for each).
+## 🛠️ **How to Run**
 
-> Assume that the lower-left coordinate is (0, 0).
+1. **Clone the repository:**
 
-### Subsequent lines: Rover Creation & Instructions
+   ```bash
+   git clone https://github.com/yourusername/py-mars-rover.git
+   cd py-mars-rover
+   ```
 
-Following the plateau creation, each Rover receives two lines of input. The first line of input is to land the Rover at a particular starting position, e.g.
+2. **Create a virtual environment:**
 
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+
+3. **Install dependencies:**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Run the program:**
+
+   ```bash
+   python src/main.py
+   ```
+
+> \[!TIP]
+> The default input is:
+>
+> ```
+> Plateau size: 5 5
+> Rover position: 1 2 N
+> Instructions: LMLMMLLMMMR
+> ```
+>
+> The expected output:
+>
+> ```
+> Rover final position: 0 3 E
+> ```
+
+## ✅ **How to Run Tests**
+
+Run all tests using:
+
+```bash
+pytest
 ```
-1 2 N
-```
 
-This lands the Rover at position (1,2) facing North.
+## 👩‍💻 **Developer Notes**
 
-The following line of input is a string of letters representing instructions to move the Rover around the Plateau.
+* Entry point: `src/main.py`
+* Rover logic: `src/logic/rover.py`
+* Parsers:
 
-## Instructions
+  * `PlateauParser`
+  * `PositionParser`
+  * `InstructionParser`
+* Customize inputs:
 
-To move a Rover around the Plateau, a string of letters is sent to a Rover.
+  * Modify `main()`
+  * Or use `MissionControl` directly
 
-| Letter | Action                                                                              |
-| ------ | ----------------------------------------------------------------------------------- |
-| L      | Spins the Rover 90 degrees Left without moving from the current coordinate point    |
-| R      | Spins the Rover 90 degrees Right without moving from the current coordinate point   |
-| M      | Moves the Rover forward by one grid point, maintaining the same heading/orientation |
+## 📄 **License**
 
-## Output
-
-For each Rover, the output represents its final position: the coordinates and where it is facing.
-
-## Movement Rules
-
-Rovers move sequentially, this means that if multiple Rovers are being landed then the first Rover needs to finish moving first before the next one can move.
-
-## Example
-
-Given the following input:
-
-```
-5 5
-1 2 N
-LMLMLMLMM
-3 3 E
-MMRMMRMRRM
-```
-
-This creates a plateau of size `(5,5)` and lands two rovers on it. The first lands at `(1,2)N` and this one moves `LMLMLMLMM`. The second lands at `(3,3)E` and it moves `MMRMMRMRRM`.
-
-The expected output is:
-
-```
-1 3 N
-5 1 E
-```
+MIT License
